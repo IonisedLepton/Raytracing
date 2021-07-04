@@ -7,4 +7,4 @@ $(TARGETS): src/main.cpp
 	$(CXX) $($CXXFLAGS) -o $(@) $<
 
 run: $(TARGETS)
-	./$(TARGETS) > output/test.ppm
+	./$(TARGETS) > output/triangle.ppm

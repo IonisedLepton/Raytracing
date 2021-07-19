@@ -32,13 +32,13 @@ int main() {
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 100;
-    const int max_depth = 50;
+    const int samples_per_pixel = 20;
+    const int max_depth = 100;
 
     // World
     hittable_list world;
 
-    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    auto material_ground = make_shared<lambertian>(color(0.93, 0.93, 0.93));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left   = make_shared<dielectric>(1.5);
     auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
@@ -55,8 +55,14 @@ int main() {
 
 
     // Camera
-    // camera cam(point3(0,0,1), vec3(0,0,-1), 45, 20, aspect_ratio);
-    camera cam(point3(0,0,4), vec3(0,0,-1), 45, 60, aspect_ratio);
+	point3 lookfrom(3,2,4);
+	vec3 lookat(-0.7,-0.5,-1.2);
+	auto roll_angle = 0;
+	auto vfov = 20;
+	auto focus_dist = 6;
+	auto aperture = 2.0;
+
+    camera cam(lookfrom, lookat, roll_angle, vfov, aspect_ratio, aperture, focus_dist);
 
     // Render
 

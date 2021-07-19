@@ -7,4 +7,4 @@ $(TARGETS): src/main.cpp
 	$(CXX) $($CXXFLAGS) -o $(@) $<
 
 run: $(TARGETS)
-	./$(TARGETS) > output/cameraproperties.ppm
+	./$(TARGETS) > output/depth_of_field.ppm

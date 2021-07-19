@@ -10,7 +10,9 @@ class camera {
             vec3 lookat,
 			double roll,
             double vfov, // vertical field-of-view in degrees
-            double aspect_ratio
+            double aspect_ratio,
+			double aperture,
+			double focus_dist
         ) {
             auto theta = degrees_to_radians(vfov);
             auto h = tan(theta/2);
@@ -19,21 +21,30 @@ class camera {
 			auto rollangle = degrees_to_radians(roll);
 			vec3 up(0,1,0);
 
-            auto w = unit_vector(-lookat);
-			auto v = unit_vector(up - dot(up,w) * w);
-			auto u = cross(v,w);
+            w = unit_vector(-lookat);
+			v = unit_vector(up - dot(up,w) * w);
+			u = cross(v,w);
+
 			//rotating the system by the roll angle:
 			v = unit_vector(sin(rollangle) * u + cos(rollangle) * v);
 			u = cross(v,w);
 
             origin = lookfrom;
-            horizontal = viewport_width * u;
-            vertical = viewport_height * v;
-            lower_left_corner = origin - w - horizontal/2 - vertical/2;
+            horizontal = focus_dist * (viewport_width * u);
+            vertical = focus_dist * (viewport_height * v);
+            lower_left_corner = origin - focus_dist * w - horizontal/2 - vertical/2;
+
+			lens_radius = aperture/2;
         }
 
         ray get_ray(double s, double t) const {
-            return ray(origin, lower_left_corner + s*horizontal + t*vertical - origin);
+			vec3 rd = lens_radius * random_in_unit_disk();
+			vec3 offset = u * rd.x() + v * rd.y();
+			// vec3 offset(0,0,0);
+			auto apparent_origin = origin + offset;
+
+            return ray(apparent_origin, 
+			lower_left_corner + s*horizontal + t*vertical - apparent_origin);
         }
 
     private:
@@ -41,5 +52,7 @@ class camera {
         point3 lower_left_corner;
         vec3 horizontal;
         vec3 vertical;
+		vec3 u, v, w;
+		double lens_radius;
 };
 #endif

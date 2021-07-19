@@ -39,24 +39,24 @@ int main() {
     hittable_list world;
 
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    // auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-    // auto material_left   = make_shared<dielectric>(1.5);
-    // auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
+    auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+    auto material_left   = make_shared<dielectric>(1.5);
+    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
     auto material_triangle = make_shared<metal>(color(0.1, 0.2, 0.5), 0.0);
 
-    // world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
-    // world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    // world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    // world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
-	world.add(make_shared<triangle>(point3(0.0,0.0,0.0),
-	 								point3(0.0,1.0,0.0),
-	 								point3(1.0,0.0,0.0),
-	 								material_triangle));
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+	// world.add(make_shared<triangle>(point3(0.0,0.0,0.0),
+	//  								point3(0.0,1.0,0.0),
+	//  								point3(1.0,0.0,0.0),
+	//  								material_triangle));
 
 
     // Camera
-    // camera cam(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 20, aspect_ratio);
-    camera cam(point3(0,0,2), point3(0,0,-1), vec3(0,1,0), 60, aspect_ratio);
+    // camera cam(point3(0,0,1), vec3(0,0,-1), 45, 20, aspect_ratio);
+    camera cam(point3(0,0,4), vec3(0,0,-1), 45, 60, aspect_ratio);
 
     // Render
 

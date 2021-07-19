@@ -7,8 +7,8 @@ class camera {
     public:
         camera(
             point3 lookfrom,
-            point3 lookat,
-            vec3   vup,
+            vec3 lookat,
+			double roll,
             double vfov, // vertical field-of-view in degrees
             double aspect_ratio
         ) {
@@ -16,15 +16,20 @@ class camera {
             auto h = tan(theta/2);
             auto viewport_height = 2.0 * h;
             auto viewport_width = aspect_ratio * viewport_height;
+			auto rollangle = degrees_to_radians(roll);
+			vec3 up(0,1,0);
 
-            auto w = unit_vector(lookfrom - lookat);
-            auto u = unit_vector(cross(vup, w));
-            auto v = cross(w, u);
+            auto w = unit_vector(-lookat);
+			auto v = unit_vector(up - dot(up,w) * w);
+			auto u = cross(v,w);
+			//rotating the system by the roll angle:
+			v = unit_vector(sin(rollangle) * u + cos(rollangle) * v);
+			u = cross(v,w);
 
             origin = lookfrom;
             horizontal = viewport_width * u;
             vertical = viewport_height * v;
-            lower_left_corner = origin - horizontal/2 - vertical/2 - w;
+            lower_left_corner = origin - w - horizontal/2 - vertical/2;
         }
 
         ray get_ray(double s, double t) const {

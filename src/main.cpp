@@ -58,7 +58,7 @@ int main() {
 	point3 lookfrom(3,2,4);
 	vec3 lookat(-0.7,-0.5,-1.2);
 	auto roll_angle = 0;
-	auto vfov = 20;
+	auto vfov = 90;
 	auto focus_dist = 6;
 	auto aperture = 2.0;
 

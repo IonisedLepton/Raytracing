@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./exec/main.exe > output/depth_of_field.ppm
+./exec/main.exe > output/polygonal_cube.ppm

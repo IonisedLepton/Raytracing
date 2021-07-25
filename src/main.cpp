@@ -3,9 +3,14 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "generic_object.h"
+#include "poly_mesh.h"
 #include "camera.h"
 #include "material.h"
-#include "iostream"
+
+#include <iostream>
+#include <string>
+#include <vector>
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     hit_record rec;
@@ -38,29 +43,42 @@ int main() {
     // World
     hittable_list world;
 
-    auto material_ground = make_shared<lambertian>(color(0.93, 0.93, 0.93));
+    auto material_ground = make_shared<lambertian>(color(0.93, 0.93, 0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left   = make_shared<dielectric>(1.5);
     auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
-    auto material_triangle = make_shared<metal>(color(0.1, 0.2, 0.5), 0.0);
+    auto material_triangle = make_shared<metal>(color(0.9, 0, 0.1), 0.0);
+    auto material_polygon = make_shared<metal>(color(0.9, 0, 0.1), 0.0);
+
+	poly_mesh cube;
+	std::string fname="assets/cube.raw";
+	read_geometry(fname,cube);
+
+	for(auto triangle_vertices: cube.polygons){
+			std::cerr << triangle_vertices[0] << "\n";
+			std::cerr << triangle_vertices[1] << "\n";
+			std::cerr << triangle_vertices[2] << "\n";
+			std::cerr<<"\n";
+	}
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
-    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+    // world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
+    // world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    // world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 	// world.add(make_shared<triangle>(point3(0.0,0.0,0.0),
-	//  								point3(0.0,1.0,0.0),
-	//  								point3(1.0,0.0,0.0),
-	//  								material_triangle));
+	//   								point3(1.0,0.0,0.0),
+	//   								point3(0.0,1.0,0.0),
+	//   								material_triangle));
+	world.add(make_shared<generic_object>(cube, material_polygon));
 
 
     // Camera
-	point3 lookfrom(3,2,4);
-	vec3 lookat(-0.7,-0.5,-1.2);
+	point3 lookfrom(0.5,0.5,4);
+	vec3 lookat(0,0,-1);
 	auto roll_angle = 0;
-	auto vfov = 90;
+	auto vfov = 60;
 	auto focus_dist = 6;
-	auto aperture = 2.0;
+	auto aperture = 0.0;
 
     camera cam(lookfrom, lookat, roll_angle, vfov, aspect_ratio, aperture, focus_dist);
 

@@ -39,8 +39,8 @@ rec) const {
 			closest_so_far = temp_rec.t;
 			rec = temp_rec;
 		}
-		return hit_anything;
 	}
+	return hit_anything;
 
 }
 

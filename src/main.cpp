@@ -37,7 +37,7 @@ int main() {
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 20;
+    const int samples_per_pixel = 100;
     const int max_depth = 100;
 
     // World
@@ -48,36 +48,30 @@ int main() {
     auto material_left   = make_shared<dielectric>(1.5);
     auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
     auto material_triangle = make_shared<metal>(color(0.9, 0, 0.1), 0.0);
-    auto material_polygon = make_shared<metal>(color(0.9, 0, 0.1), 0.0);
+    auto material_polygon = make_shared<metal>(color(0.73, 0.72, 0.72), 0.9);
 
 	poly_mesh cube;
 	std::string fname="assets/cube.raw";
 	read_geometry(fname,cube);
 
-	for(auto triangle_vertices: cube.polygons){
-			std::cerr << triangle_vertices[0] << "\n";
-			std::cerr << triangle_vertices[1] << "\n";
-			std::cerr << triangle_vertices[2] << "\n";
-			std::cerr<<"\n";
-	}
-
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
     // world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    // world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    // world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, 0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3( 2.0,    0.0, 0),   0.5, material_center));
 	// world.add(make_shared<triangle>(point3(0.0,0.0,0.0),
 	//   								point3(1.0,0.0,0.0),
 	//   								point3(0.0,1.0,0.0),
 	//   								material_triangle));
+    world.add(make_shared<sphere>(point3( 0.5,    0.0, 1.5),   0.5, material_right));
 	world.add(make_shared<generic_object>(cube, material_polygon));
 
 
     // Camera
-	point3 lookfrom(0.5,0.5,4);
-	vec3 lookat(0,0,-1);
+	point3 lookfrom(3,2,3);
+	vec3 lookat(-1,-0.7,-1);
 	auto roll_angle = 0;
-	auto vfov = 60;
-	auto focus_dist = 6;
+	auto vfov = 40;
+	auto focus_dist = 3;
 	auto aperture = 0.0;
 
     camera cam(lookfrom, lookat, roll_angle, vfov, aspect_ratio, aperture, focus_dist);

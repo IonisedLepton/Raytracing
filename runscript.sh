@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./exec/main.exe > output/polygonal_cube.ppm
+./exec/main.exe > output/torus.ppm

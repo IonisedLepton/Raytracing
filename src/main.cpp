@@ -67,10 +67,10 @@ int main() {
 
 
     // Camera
-	point3 lookfrom(3,2,3);
-	vec3 lookat(-1,-0.7,-1);
+	point3 lookfrom(2,2,3);
+	vec3 lookat(-0.2,-0.7,-1);
 	auto roll_angle = 0;
-	auto vfov = 40;
+	auto vfov = 60;
 	auto focus_dist = 3;
 	auto aperture = 0.0;
 
